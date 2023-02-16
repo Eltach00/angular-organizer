@@ -24,7 +24,7 @@ export class CalendarComponent implements OnInit {
   constructor(private dateServ: DataService) {}
 
   ngOnInit(): void {
-    this.dateServ.date.subscribe(this.generate);
+    this.dateServ.date.subscribe(this.generate.bind(this));
   }
 
   generate(now: moment.Moment) {
@@ -50,6 +50,11 @@ export class CalendarComponent implements OnInit {
           }),
       });
     }
-    console.log(calendar);
+
+    this.calendar = calendar;
+  }
+
+  select(day: moment.Moment) {
+    this.dateServ.changeDate(day);
   }
 }

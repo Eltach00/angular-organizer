@@ -16,4 +16,12 @@ export class DataService {
 
     this.date.next(value);
   }
+
+  changeDate(date: moment.Moment) {
+    const value = this.date.value.set({
+      date: date.date(),
+      month: date.month(),
+    });
+    this.date.next(value);
+  }
 }
