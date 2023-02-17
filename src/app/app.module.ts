@@ -6,6 +6,7 @@ import { CalendarComponent } from './components/calendar/calendar.component';
 import { SelectorComponent } from './components/selector/selector.component';
 import { OrganizerComponent } from './components/organizer/organizer.component';
 import { MomentPipe } from './shared/pipes/moment.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,12 +14,10 @@ import { MomentPipe } from './shared/pipes/moment.pipe';
     CalendarComponent,
     SelectorComponent,
     OrganizerComponent,
-    MomentPipe
+    MomentPipe,
   ],
-  imports: [
-    BrowserModule
-  ],
+  imports: [BrowserModule, FormsModule, ReactiveFormsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

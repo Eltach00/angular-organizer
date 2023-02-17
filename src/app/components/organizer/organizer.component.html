@@ -18,9 +18,15 @@
   </main>
 
   <footer>
-    <form>
-      <input type="text" />
-      <button type="submit" class="btn btn-primary btn-block">Add</button>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <input formControlName="title" type="text" />
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        [disabled]="form.invalid"
+      >
+        Add
+      </button>
     </form>
   </footer>
 </section>
