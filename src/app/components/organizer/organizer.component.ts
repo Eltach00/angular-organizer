@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
+import { switchMap } from 'rxjs';
 import { DataService } from 'src/app/shared/services/data.service';
 import { ITask, TaskService } from 'src/app/shared/services/task.service';
 
@@ -14,11 +16,16 @@ export class OrganizerComponent implements OnInit {
   constructor(public dateServ: DataService, private taskServ: TaskService) {}
 
   ngOnInit(): void {
-    this.dateServ.date.subscribe((date) => {
-      this.taskServ.loadTask(date).subscribe((resp) => {
+    this.dateServ.date
+      .pipe(
+        switchMap((date: moment.Moment) => {
+          return this.taskServ.loadTask(date);
+        })
+      )
+      .subscribe((resp) => {
         this.tasks = resp;
       });
-    });
+
     this.form = new FormGroup({
       title: new FormControl('', Validators.required),
     });
