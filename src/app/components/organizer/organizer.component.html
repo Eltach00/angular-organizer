@@ -12,7 +12,11 @@
           <strong> {{ i + 1 }} </strong>
           {{ task.title }}
         </span>
-        <button class="btn btn-primary" (click)="deleteTask(task)">
+        <button
+          [disabled]="loading"
+          class="btn btn-primary"
+          (click)="deleteTask(task)"
+        >
           Remove
         </button>
       </li>
@@ -23,6 +27,7 @@
     <form [formGroup]="form" (ngSubmit)="submit()">
       <input formControlName="title" type="text" placeholder="Add a new task" />
       <button
+        [disabled]="loadingAddBtn"
         type="submit"
         class="btn btn-primary btn-block"
         [disabled]="form.invalid"

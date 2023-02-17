@@ -13,6 +13,8 @@ import { ITask, TaskService } from 'src/app/shared/services/task.service';
 export class OrganizerComponent implements OnInit {
   form: FormGroup;
   tasks: ITask[];
+  loading = false;
+  loadingAddBtn = false;
   constructor(public dateServ: DataService, private taskServ: TaskService) {}
 
   ngOnInit(): void {
@@ -32,9 +34,12 @@ export class OrganizerComponent implements OnInit {
   }
 
   deleteTask(task: ITask) {
+    this.loading = true;
+
     this.taskServ.removeTask(task).subscribe({
       next: (resp) => {
         this.tasks = this.tasks.filter((item) => item.id !== task.id);
+        this.loading = false;
       },
       error: (e) => console.log(e),
     });
@@ -42,7 +47,7 @@ export class OrganizerComponent implements OnInit {
 
   submit() {
     const { title } = this.form.value;
-
+    this.loadingAddBtn = true;
     const task: ITask = {
       title,
       date: this.dateServ.date.value.format('DD-MM-YYYY'),
@@ -51,6 +56,7 @@ export class OrganizerComponent implements OnInit {
       next: (resp) => {
         this.form.reset();
         this.tasks.push(resp);
+        this.loadingAddBtn = false;
       },
       error: (err) => {
         console.log(err);
