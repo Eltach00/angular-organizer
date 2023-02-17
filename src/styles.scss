@@ -44,7 +44,7 @@ input {
 }
 
 .container {
-  min-width: 1100px;
+  max-width: 1100px;
   margin: auto;
   overflow: hidden;
   padding: 0 2rem;
@@ -89,4 +89,8 @@ table th {
 
 .text-center {
   text-align: center;
+}
+
+.bold {
+  font-weight: bold;
 }
