@@ -1,11 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import * as moment from 'moment';
+import { Observable, map } from 'rxjs';
 
 export interface ITask {
-  id?: number;
+  id?: string;
   date?: string;
   title: string;
+}
+
+interface TaskResponse {
+  name: string;
 }
 
 @Injectable({
@@ -16,12 +21,26 @@ export class TaskService {
 
   constructor(private http: HttpClient) {}
 
-  sendTasks(task: ITask) {
-    return this.http.post(`${TaskService.url}/${task.date}.json`, task).pipe(
-      map((resp) => {
-        console.log(resp);
-        return resp;
-      })
-    );
+  loadTask(date: moment.Moment): Observable<ITask[]> {
+    return this.http
+      .get<ITask[]>(TaskService.url + `/${date.format('DD-MM-YYYY')}.json`)
+      .pipe(
+        map((tasks) => {
+          if (!tasks) {
+            return [];
+          }
+          return Object.keys(tasks).map((key) => ({ ...tasks[key], id: key }));
+        })
+      );
+  }
+
+  sendTasks(task: ITask): Observable<ITask> {
+    return this.http
+      .post<TaskResponse>(`${TaskService.url}/${task.date}.json`, task)
+      .pipe(
+        map((resp) => {
+          return { ...task, id: resp.name };
+        })
+      );
   }
 }

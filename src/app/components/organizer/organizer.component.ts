@@ -10,9 +10,15 @@ import { ITask, TaskService } from 'src/app/shared/services/task.service';
 })
 export class OrganizerComponent implements OnInit {
   form: FormGroup;
+  tasks: ITask[];
   constructor(public dateServ: DataService, private taskServ: TaskService) {}
 
   ngOnInit(): void {
+    this.dateServ.date.subscribe((date) => {
+      this.taskServ.loadTask(date).subscribe((resp) => {
+        this.tasks = resp;
+      });
+    });
     this.form = new FormGroup({
       title: new FormControl('', Validators.required),
     });
@@ -26,8 +32,9 @@ export class OrganizerComponent implements OnInit {
       date: this.dateServ.date.value.format('DD-MM-YYYY'),
     };
     this.taskServ.sendTasks(task).subscribe(
-      () => {
+      (resp) => {
         this.form.reset();
+        console.log(resp);
       },
       (err) => {
         console.log(err);

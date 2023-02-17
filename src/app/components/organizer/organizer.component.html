@@ -7,10 +7,10 @@
 
   <main>
     <ul>
-      <li class="task">
+      <li class="task" *ngFor="let task of tasks; let i = index">
         <span>
-          <strong>1</strong>
-          fdsfs
+          <strong> {{ i + 1 }} </strong>
+          {{ task.title }}
         </span>
         <button class="btn btn-primary">Remove</button>
       </li>
