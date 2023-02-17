@@ -12,7 +12,9 @@
           <strong> {{ i + 1 }} </strong>
           {{ task.title }}
         </span>
-        <button class="btn btn-primary">Remove</button>
+        <button class="btn btn-primary" (click)="deleteTask(task)">
+          Remove
+        </button>
       </li>
     </ul>
   </main>

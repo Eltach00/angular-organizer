@@ -24,6 +24,15 @@ export class OrganizerComponent implements OnInit {
     });
   }
 
+  deleteTask(task: ITask) {
+    this.taskServ.removeTask(task).subscribe({
+      next: (resp) => {
+        this.tasks = this.tasks.filter((item) => item.id !== task.id);
+      },
+      error: (e) => console.log(e),
+    });
+  }
+
   submit() {
     const { title } = this.form.value;
 
@@ -31,14 +40,14 @@ export class OrganizerComponent implements OnInit {
       title,
       date: this.dateServ.date.value.format('DD-MM-YYYY'),
     };
-    this.taskServ.sendTasks(task).subscribe(
-      (resp) => {
+    this.taskServ.sendTasks(task).subscribe({
+      next: (resp) => {
         this.form.reset();
-        console.log(resp);
+        this.tasks.push(resp);
       },
-      (err) => {
+      error: (err) => {
         console.log(err);
-      }
-    );
+      },
+    });
   }
 }

@@ -34,6 +34,12 @@ export class TaskService {
       );
   }
 
+  removeTask({ id, date }: ITask) {
+    return this.http.delete(TaskService.url + `/${date}` + `/${id}.json`);
+    // .pipe(map(()=> {
+    // }));
+  }
+
   sendTasks(task: ITask): Observable<ITask> {
     return this.http
       .post<TaskResponse>(`${TaskService.url}/${task.date}.json`, task)
